@@ -5,8 +5,8 @@ MFENCE # instrumentation
 .bb_main.entry:
 JMP .bb_main.0 
 .bb_main.0:
-AND DIL, -58 # instrumentation - input 1
-NOT SI # input 2
+AND DIL, -58 # instrumentation
+NOT SI 
 CMPXCHG CX, SI 
 CMPXCHG DL, AL 
 JNLE .bb_main.1 # speculation trigger...
