@@ -1,0 +1,51 @@
+
+AND DIL, -58 # -58 = 000110. DIL = lowest 8 bits of RDI. RDI = instrumentation(input??). AND_FLAGS = ZF (1 if result == 0) SF (result's MSB) PF (...) OF, CF (cleared)
+NOT SI # SI = 2 lowest bytes in RSI
+
+(CMPXCHG CX, SI):
+if CX == AX:
+    CX = SI # flags: zf (1)
+else:
+    AX = CX # flags: zf (0)
+
+(CMPXCHG DL, AL):
+if DL == AL:
+    DL = AL # flags: zf (1)
+else:
+    AL = DL # flags: zf (0)
+
+JNLE .bb_main.1 # speculation trigger. jumps if greater (ZF = 0(DL != AL) and SF = OF(positive outcome)) doesnt jump when (DL <= AL)
+JMP .bb_main.exit 
+
+.bb_main.1:
+    AND RCX, 0b1111111111111 # instrumentation(input??). keep the last 13 bits of rcx and reset the rest. AND_FLAGS = ZF (1 if result == 0) SF (result's MSB) PF (...) OF, CF (cleared)
+    OR EDX, dword ptr [R14 + RCX] 
+
+.bb_main.exit:
+
+
+https://github.com/microsoft/sca-fuzzer/blob/main/src/interfaces.py - line 523 "The ordering of registers:  RAX, RBX, RCX, RDX, RSI, RDI, FLAGS"
+
+
+example inputs:
+Inputs [32, 132, 232, 332] (+ 1 ):
+  ^.^.............................................................
+ Inputs [33, 133, 233, 333] (+ 1 ):
+  ^..........................^....................................
+ Inputs [35, 135, 235, 335] (+ 1 ):
+  ^.........^.....................................................
+ Inputs [36, 136, 236, 336] (+ 1 ):
+  ^.................^.............................................
+ Inputs [40, 140, 240, 340] (+ 1 ):
+  ^..................^............................................
+ Inputs [47, 147, 247, 347] (+ 1 ):
+  ^..............................................^................
+ Inputs [50, 150, 250, 350] (+ 1 ):
+  ^..................................................^............
+ Inputs [54, 154, 254, 354] (+ 1 ):
+  ^.............................................^.................
+ Inputs [56, 156, 256, 356] (+ 1 ):
+  ^..............................^................................
+ Inputs [59, 159, 259, 359] (+ 1 ):
+  ^......................^........................................
+ Inputs [62, 162, 262, 362] (+ 1 ):
