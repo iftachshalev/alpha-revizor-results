@@ -1,5 +1,5 @@
 
-AND DIL, -58 # -58 = 11000110. DIL = lowest 8 bits of RDI. RDI = instrumentation(input??). AND_FLAGS = ZF (1 if result == 0) SF (result's MSB) PF (...) OF, CF (cleared)
+AND DIL, -58 # -58 = 11000110. DIL = lowest 8 bits of RDI. instrumentation(?). AND_FLAGS = ZF (1 if result == 0) SF (result's MSB) PF (...) OF, CF (cleared)
 NOT SI # SI = 2 lowest bytes in RSI
 
 (CMPXCHG CX, SI):
@@ -18,7 +18,7 @@ JNLE .bb_main.1 # speculation trigger. jumps if greater (ZF = 0(DL != AL) and SF
 JMP .bb_main.exit 
 
 .bb_main.1:
-    AND RCX, 0b1111111111111 # instrumentation(input??). keep the last 13 bits of rcx and reset the rest. AND_FLAGS = ZF (1 if result == 0) SF (result's MSB) PF (...) OF, CF (cleared)
+    AND RCX, 0b1111111111111 # instrumentation(?). keep the last 13 bits of rcx and reset the rest. AND_FLAGS = ZF (1 if result == 0) SF (result's MSB) PF (...) OF, CF (cleared)
     OR EDX, dword ptr [R14 + RCX] 
 
 .bb_main.exit:
