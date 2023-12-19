@@ -1,5 +1,5 @@
 
-AND DIL, -58 # -58 = 000110. DIL = lowest 8 bits of RDI. RDI = instrumentation(input??). AND_FLAGS = ZF (1 if result == 0) SF (result's MSB) PF (...) OF, CF (cleared)
+AND DIL, -58 # -58 = 11000110. DIL = lowest 8 bits of RDI. RDI = instrumentation(input??). AND_FLAGS = ZF (1 if result == 0) SF (result's MSB) PF (...) OF, CF (cleared)
 NOT SI # SI = 2 lowest bytes in RSI
 
 (CMPXCHG CX, SI):
