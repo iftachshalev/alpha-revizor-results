@@ -1,2 +1,2 @@
 # alpha-revizor-results
-this repository will represent the results of the 3 experiments for adapting the revizor for ARM architecture
+### results of the first experiment in my alpha project, in which the revizor was executed on i7-10700k and violation 136 was examined.
